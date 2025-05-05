@@ -1,4 +1,4 @@
-# 🏢 AHP-Based Façade Design Decision Support Tool
+AHP-Based Façade Design Decision Support Tool
 
 This interactive tool ranks façade design alternatives using the Analytic Hierarchy Process (AHP), incorporating multiple performance metrics and user-defined weights. It supports real-time ranking, visualization, and consistency checks — powered by Streamlit, Google Sheets, and `ahpy`.
 
