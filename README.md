@@ -147,7 +147,6 @@ streamlit run AHP_project.py
 * [`pymoo` optimization docs](https://pymoo.org/)
 * [Streamlit Docs](https://docs.streamlit.io/)
 * Saaty, T.L. (1980). *The Analytic Hierarchy Process*.
-* buildingSMART (2020). *IFC 4.3 Final* Specification
 
 ---
 
