@@ -20,7 +20,7 @@ This interactive tool ranks façade design alternatives using the Analytic Hiera
 
 ## ✨ Why This Exists
 
-Early-stage façade design often requires balancing multiple performance and cost-related factors. This tool enables:
+Early-stage façade design often requires balancing multiple performances. This tool enables:
 
 * Transparent decision-making with AHP
 * Real-time sensitivity tuning
@@ -35,10 +35,9 @@ Early-stage façade design often requires balancing multiple performance and cos
 
 ---
 
-## ⚙️ How It Works (TL;DR)
+## ⚙️ How It Works
 
-* CSVs are loaded from Google Sheets (one per metric)
-* Sliders in the UI allow users to adjust weights for criteria and sub-criteria
+* Sliders in the UI allow users to adjust weights for criteria
 * The `ahpy` library builds the AHP comparison tree dynamically
 * Results are ranked and visualized as:
 
@@ -146,6 +145,6 @@ streamlit run AHP_project.py
 
 ---
 
-👤 Created by Mohammed Hassen
+👤 Created by Mohammed Hassen, Kiana Layam
 🗓️ Spring 2025 | Georgia Tech | ARCH 8833
 
