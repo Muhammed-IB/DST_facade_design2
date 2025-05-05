@@ -100,15 +100,21 @@ input_params = [col for col in input_params if col in df.columns]
 sa_df = df.dropna(subset=input_params + ['Value_Function'])
 sa_df = sa_df.loc[:, sa_df.nunique() > 1]
 
-# Filter input_params again based on cleaned sa_df
-valid_inputs = [col for col in input_params if col in sa_df.columns]
-
-if not valid_inputs:
-    st.warning("⚠️ No valid input parameters available for sensitivity analysis.")
+# Ensure 'Value_Function' is still present after filtering
+if sa_df.empty or 'Value_Function' not in sa_df.columns:
+    st.warning("⚠️ No valid data for sensitivity analysis after filtering.")
     sensitivity = pd.Series(dtype=float)
+    top5_params = pd.Series(dtype=float)
 else:
-    sensitivity = sa_df[valid_inputs].apply(lambda col: col.corr(sa_df['Value_Function'])).abs().sort_values(ascending=False)
-top5_params = sensitivity.head(5)
+    valid_inputs = [col for col in input_params if col in sa_df.columns]
+    if not valid_inputs:
+        st.warning("⚠️ No valid input parameters available for sensitivity analysis.")
+        sensitivity = pd.Series(dtype=float)
+        top5_params = pd.Series(dtype=float)
+    else:
+        sensitivity = sa_df[valid_inputs].apply(lambda col: col.corr(sa_df['Value_Function'])).abs().sort_values(ascending=False)
+        top5_params = sensitivity.head(5)
+
 
 # AHP scoring and ranking
 df['AHP_Score'] = df['Value_Function']
