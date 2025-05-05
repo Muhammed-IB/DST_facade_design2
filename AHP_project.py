@@ -90,10 +90,27 @@ input_params = [
     'in:Shading_N', 'in:Shading_W', 'in:Shading_S', 'in:Shading_E',
     'in:Window_U_Value', 'in:SHGC'
 ]
+
+# Filter to only existing columns
 input_params = [col for col in input_params if col in df.columns]
-sa_df = df.dropna(subset=input_params + ['Value_Function'])
-sensitivity = sa_df[input_params].apply(lambda col: col.corr(sa_df['Value_Function'])).abs().sort_values(ascending=False)
-top5_params = sensitivity.head(5)
+
+# Drop rows with NaNs in any required columns
+required_cols = input_params + ['Value_Function']
+sa_df = df.dropna(subset=required_cols)
+
+# Drop constant columns
+sa_df = sa_df.loc[:, sa_df.nunique() > 1]
+
+# Check that Value_Function is still valid
+if 'Value_Function' not in sa_df.columns or sa_df['Value_Function'].nunique() <= 1:
+    st.warning("⚠️ 'Value_Function' is constant or missing. Cannot compute sensitivity.")
+    sensitivity = pd.Series(dtype=float)
+else:
+    # Safe correlation
+    valid_inputs = [col for col in input_params if col in sa_df.columns and sa_df[col].nunique() > 1]
+    sensitivity = sa_df[valid_inputs].apply(lambda col: col.corr(sa_df['Value_Function'])).abs().sort_values(ascending=False)
+    top5_params = sensitivity.head(5)
+
 
 # AHP scoring and ranking
 df['AHP_Score'] = df['Value_Function']
