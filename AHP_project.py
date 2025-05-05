@@ -27,7 +27,7 @@ def run_optimization():
             self.F = F
 
         def _evaluate(self, x, out, *args, **kwargs):
-            idx = np.clip((x[:, 0] * (self.F.shape[0] - 1)).astype(int), 0, self.F.shape[0]-1)
+            idx = np.clip((x[:, 0] * (self.F.shape[0] - 1)).  astype(int), 0, self.F.shape[0]-1)
             out["F"] = self.F[idx]
 
     problem = EvaluatedProblem(F_matrix)
@@ -67,15 +67,9 @@ def load_data():
 if st.session_state.get('just_optimized'):
     del st.session_state['just_optimized']
 df = load_data()
-
-def safe_normalize(x):
-    if x.nunique() <= 1 or x.isnull().any():
-        return pd.Series([0.0] * len(x), index=x.index)
-    return (x - x.min()) / (x.max() - x.min() + 1e-6)
-
-df['norm_EUI'] = safe_normalize(df['N_EUI'])
-df['norm_Illuminance'] = safe_normalize(df['N_illuminace'])
-
+normalize = lambda x: (x - x.min()) / (x.max() - x.min() + 1e-6)
+df['norm_EUI'] = normalize(df['N_EUI'])
+df['norm_Illuminance'] = normalize(df['N_illuminace'])
 
 # Sidebar sliders for AHP weights
 st.sidebar.header("🔧 Set AHP Weights")
@@ -98,23 +92,8 @@ input_params = [
 ]
 input_params = [col for col in input_params if col in df.columns]
 sa_df = df.dropna(subset=input_params + ['Value_Function'])
-sa_df = sa_df.loc[:, sa_df.nunique() > 1]
-
-# Ensure 'Value_Function' is still present after filtering
-if sa_df.empty or 'Value_Function' not in sa_df.columns:
-    st.warning("⚠️ No valid data for sensitivity analysis after filtering.")
-    sensitivity = pd.Series(dtype=float)
-    top5_params = pd.Series(dtype=float)
-else:
-    valid_inputs = [col for col in input_params if col in sa_df.columns]
-    if not valid_inputs:
-        st.warning("⚠️ No valid input parameters available for sensitivity analysis.")
-        sensitivity = pd.Series(dtype=float)
-        top5_params = pd.Series(dtype=float)
-    else:
-        sensitivity = sa_df[valid_inputs].apply(lambda col: col.corr(sa_df['Value_Function'])).abs().sort_values(ascending=False)
-        top5_params = sensitivity.head(5)
-
+sensitivity = sa_df[input_params].apply(lambda col: col.corr(sa_df['Value_Function'])).abs().sort_values(ascending=False)
+top5_params = sensitivity.head(5)
 
 # AHP scoring and ranking
 df['AHP_Score'] = df['Value_Function']
@@ -158,7 +137,7 @@ st.dataframe(df_ranked[['Rank', 'in:Run', 'N_EUI', 'N_illuminace', 'AHP_Score', 
 
 # Image grid
 st.subheader("🖼️ Design Images")
-image_dir = "DSC_CaseStudy2_Output"
+image_dir = r"D:\\02_Georgia Tech_MS Architecture\\Second semester\\Building simulation in design practice\\Final assignment\\Final DSE Energy Simulation 01\\Final DSE Simulation Runs"
 image_column = 'img'
 
 cols = st.columns(3)
