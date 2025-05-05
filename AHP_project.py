@@ -152,7 +152,7 @@ st.dataframe(df_ranked[['Rank', 'in:Run', 'N_EUI', 'N_illuminace', 'AHP_Score', 
 
 # Image grid
 st.subheader("🖼️ Design Images")
-image_dir = r"D:\\01_Tu delft Msc Building Tech\\2nd year\\core\\Week 2\\VS\\DSC_CaseStudy2_Output"
+image_dir = "DSC_CaseStudy2_Output"
 image_column = 'img'
 
 cols = st.columns(3)
