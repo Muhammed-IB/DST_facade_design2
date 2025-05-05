@@ -1,7 +1,10 @@
 AHP-Based Façade Design Decision Support Tool
 
-This interactive tool ranks façade design alternatives using the Analytic Hierarchy Process (AHP), incorporating multiple performance metrics and user-defined weights. It supports real-time ranking, visualization, and consistency checks — powered by Streamlit, Google Sheets, and `ahpy`.
-
+Rank façade design alternatives with interactive AHP logic using data from Google Sheets and visualize results with Streamlit.
+It a two-part decision-support framework to integrate parametric design, multi-objective optimization and multi-criteria decision making for façade design alternatives. The framework employs an evolutionary optimization algorithm (NSGA-II) with the Analytic Hierarchy Process (AHP) in an interactive, browser-based application developed using Streamlit. The tool allows stakeholders to explore trade-offs among competing performance criteria and to dynamically assign weights to reflect project-specific priorities. 
+Due to the absence of a single comprehensive dataset that includes both detailed performance metrics and the corresponding design parameters, the tool was implemented in two separate demos.
+This is demo 1 
+It uses a dataset with 201 alternatives and includes input parameters used in performance simulations, enabling both optimization and sensitivity analysis. However, it is limited to just two performance metrics: Energy Use Intensity (EUI) and daylight illuminance (UDI).
 ---
 
 ## 📚 Table of Contents
