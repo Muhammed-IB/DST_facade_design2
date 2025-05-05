@@ -4,7 +4,8 @@ This interactive tool ranks façade design alternatives using the Analytic Hiera
 
 It is part of a two-part decision-support framework that integrates parametric design, multi-objective optimization, and multi-criteria decision making. The framework employs the NSGA-II evolutionary algorithm with AHP in a browser-based Streamlit application. This setup enables stakeholders to explore trade-offs and prioritize project-specific objectives dynamically.
 
-🔹 Demo 1 uses a dataset with 201 alternatives and includes input parameters used in performance simulations, enabling both optimization and sensitivity analysis. However, it is limited to just two performance metrics: Energy Use Intensity (EUI) and daylight illuminance (UDI)
+🔹 This is Demo 1 
+It uses a dataset with 201 alternatives and includes input parameters used in performance simulations, enabling both optimization and sensitivity analysis. However, it is limited to just two performance metrics: Energy Use Intensity (EUI) and daylight illuminance (UDI)
 
 ---
 
