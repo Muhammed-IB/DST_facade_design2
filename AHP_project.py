@@ -27,7 +27,7 @@ def run_optimization():
             self.F = F
 
         def _evaluate(self, x, out, *args, **kwargs):
-            idx = np.clip((x[:, 0] * (self.F.shape[0] - 1)).astype(int), 0, self.F.shape[0]-1)
+            idx = np.clip((x[:, 0] * (self.F.shape[0] - 1)).  astype(int), 0, self.F.shape[0]-1)
             out["F"] = self.F[idx]
 
     problem = EvaluatedProblem(F_matrix)
@@ -45,11 +45,6 @@ def run_optimization():
         front_df = df.iloc[front].drop_duplicates().reset_index(drop=True)
         front_df.to_csv(f"elitist_front_{i}.csv", index=False)
 
-# --- Check for outputs and load data ---
-if not os.path.exists("pareto_front.csv"):
-    run_optimization()
-
-df = load_data()
 
 # --- Streamlit UI ---
 st.title("📊 Façade Design Ranking Using AHP")
