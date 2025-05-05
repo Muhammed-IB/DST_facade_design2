@@ -67,9 +67,15 @@ def load_data():
 if st.session_state.get('just_optimized'):
     del st.session_state['just_optimized']
 df = load_data()
-normalize = lambda x: (x - x.min()) / (x.max() - x.min() + 1e-6)
-df['norm_EUI'] = normalize(df['N_EUI'])
-df['norm_Illuminance'] = normalize(df['N_illuminace'])
+
+def safe_normalize(x):
+    if x.nunique() <= 1 or x.isnull().any():
+        return pd.Series([0.0] * len(x), index=x.index)
+    return (x - x.min()) / (x.max() - x.min() + 1e-6)
+
+df['norm_EUI'] = safe_normalize(df['N_EUI'])
+df['norm_Illuminance'] = safe_normalize(df['N_illuminace'])
+
 
 # Sidebar sliders for AHP weights
 st.sidebar.header("🔧 Set AHP Weights")
