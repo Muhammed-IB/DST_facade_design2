@@ -45,7 +45,6 @@ def run_optimization():
         front_df = df.iloc[front].drop_duplicates().reset_index(drop=True)
         front_df.to_csv(f"elitist_front_{i}.csv", index=False)
 
-
 # --- Streamlit UI ---
 st.title("📊 Façade Design Ranking Using AHP")
 st.write("Upload or use optimization results to rank design alternatives using adjustable AHP weights.")
@@ -91,27 +90,10 @@ input_params = [
     'in:Shading_N', 'in:Shading_W', 'in:Shading_S', 'in:Shading_E',
     'in:Window_U_Value', 'in:SHGC'
 ]
-
-# Filter to only existing columns
 input_params = [col for col in input_params if col in df.columns]
-
-# Drop rows with NaNs in any required columns
-required_cols = input_params + ['Value_Function']
-sa_df = df.dropna(subset=required_cols)
-
-# Drop constant columns
-sa_df = sa_df.loc[:, sa_df.nunique() > 1]
-
-# Check that Value_Function is still valid
-if 'Value_Function' not in sa_df.columns or sa_df['Value_Function'].nunique() <= 1:
-    st.warning("⚠️ 'Value_Function' is constant or missing. Cannot compute sensitivity.")
-    sensitivity = pd.Series(dtype=float)
-else:
-    # Safe correlation
-    valid_inputs = [col for col in input_params if col in sa_df.columns and sa_df[col].nunique() > 1]
-    sensitivity = sa_df[valid_inputs].apply(lambda col: col.corr(sa_df['Value_Function'])).abs().sort_values(ascending=False)
-    top5_params = sensitivity.head(5)
-
+sa_df = df.dropna(subset=input_params + ['Value_Function'])
+sensitivity = sa_df[input_params].apply(lambda col: col.corr(sa_df['Value_Function'])).abs().sort_values(ascending=False)
+top5_params = sensitivity.head(5)
 
 # AHP scoring and ranking
 df['AHP_Score'] = df['Value_Function']
@@ -155,7 +137,7 @@ st.dataframe(df_ranked[['Rank', 'in:Run', 'N_EUI', 'N_illuminace', 'AHP_Score', 
 
 # Image grid
 st.subheader("🖼️ Design Images")
-image_dir = "DSC_CaseStudy2_Output"
+image_dir = r"D:\\02_Georgia Tech_MS Architecture\\Second semester\\Building simulation in design practice\\Final assignment\\Final DSE Energy Simulation 01\\Final DSE Simulation Runs"
 image_column = 'img'
 
 cols = st.columns(3)
