@@ -137,7 +137,7 @@ st.dataframe(df_ranked[['Rank', 'in:Run', 'N_EUI', 'N_illuminace', 'AHP_Score', 
 
 # Image grid
 st.subheader("🖼️ Design Images")
-image_dir = r"D:\\02_Georgia Tech_MS Architecture\\Second semester\\Building simulation in design practice\\Final assignment\\Final DSE Energy Simulation 01\\Final DSE Simulation Runs"
+image_dir = "DSC_CaseStudy2_Output"
 image_column = 'img'
 
 cols = st.columns(3)
